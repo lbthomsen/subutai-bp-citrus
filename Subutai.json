@@ -58,6 +58,11 @@
             "default": "biab2",
             "validation": "[a-zA-Z0-9]+"
         },
+        "numberOfNodes": {
+            "description": "Enter number of nodes",
+            "type": "int",
+            "default": "3"
+        },
         "domain": {
             "description": "Enter the primary domain name",
             "type": "domain",
@@ -72,8 +77,8 @@
         "containerSize": {
             "description": "Container Size",
             "type": "enum",
-            "default": "LARGE",
-            "validation": "LARGE,HUGE"
+            "default": "SMALL",
+            "validation": "SMALL,MEDIUM,LARGE,HUGE"
         }
     }
 }
