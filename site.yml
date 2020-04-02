@@ -7,13 +7,26 @@
 
     - name: Upgrade Debian
       apt: 
-        state: present
         update_cache: yes
         upgrade: "yes"
 
     - name: Install extra
       apt:
-        name: curl
+        name: 
+          - curl
+          - apt-transport-https
+          - dirmngr
+          - aptitude
         state: present
 
+    - name: Add Postgresql Repository
+      apt_repository:
+        repo: deb http://apt.postgresql.org/pub/repos/apt/ stretch-pgdg main
+        state: present
 
+    - name: Add Citrus Repository
+      apt_repository: 
+        repo: deb https://repos.citusdata.com/community/debian/ stretch main
+        state: present
+
+# vim: ts=2 et nowrap autoindent
