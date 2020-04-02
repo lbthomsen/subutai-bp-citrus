@@ -1,0 +1,19 @@
+---
+
+- hosts: all
+  remote_user: root
+
+  tasks: 
+
+    - name: Upgrade Debian
+      apt: 
+        state: present
+        update_cache: yes
+        upgrade: "yes"
+
+    - name: Install extra
+      apt:
+        name: curl
+        state: present
+
+
