@@ -24,7 +24,7 @@
             "hostname": "worker",
             "template": "debian-stretch",
             "peer-criteria": "peers",
-            "peer-layout": "worker",
+            "peer-layout": "workers",
             "size": "${containerSize}", 
             "port-mapping": [
                 {
