@@ -24,7 +24,7 @@
         id: 7FCC7D46ACCC4CF8
         keyserver: keyserver.ubuntu.com
 
-    - name: Add Citrus Repo Key
+    - name: Add Citus Repo Key
       apt_key: 
         id: 0D750985D6AF6C22
         url: https://repos.citusdata.com/community/gpgkey
@@ -34,12 +34,12 @@
         repo: deb http://apt.postgresql.org/pub/repos/apt/ stretch-pgdg main
         state: present
 
-    - name: Add Citrus Repository
+    - name: Add Citus Repository
       apt_repository: 
         repo: deb https://repos.citusdata.com/community/debian/ stretch main
         state: present
 
-    - name: Install citrus
+    - name: Install citus
       apt:
         name: 
           - postgresql-12-citus-9.2
