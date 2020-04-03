@@ -14,7 +14,7 @@
             "port-mapping": [
                 {
                     "protocol": "tcp",
-                    "domain": "${domain}",
+                    "domain": "${coordinatorDomain}",
                     "internal-port": "5432",
                     "external-port": "${port}"
                 }
@@ -29,7 +29,7 @@
             "port-mapping": [
                 {
                     "protocol": "tcp",
-                    "domain": "${domain}",
+                    "domain": "${workerDomain}",
                     "internal-port": "5432",
                     "external-port": "${port}"
                 }
@@ -58,8 +58,12 @@
         "ansible-playbook": "site.yml",
         "extra-vars": [
             {
-                "key": "domain",
-                "value": "${domain}"
+                "key": "coordinatorDomain",
+                "value": "${coordinatorDomain}"
+            }, 
+            {
+                "key": "workerDomain",
+                "value": "${workerDomain}"
             }
         ],
         "groups": [
@@ -89,8 +93,14 @@
             "type": "int",
             "default": "2"
         },
-        "domain": {
-            "description": "Enter the domain name",
+        "coordinatorDomain": {
+            "description": "Enter the coordinator domain name",
+            "type": "domain",
+            "default": "change.the.domain",
+            "validation": "[a-zA-Z0-9]+"
+        },
+        "workerDomain": {
+            "description": "Enter the worker domain name",
             "type": "domain",
             "default": "change.the.domain",
             "validation": "[a-zA-Z0-9]+"

@@ -1,0 +1,13 @@
+
+
+coordinator ansible_port=10005 ansible_host=10.88.191.2
+worker0 ansible_port=10003 ansible_host=10.88.191.1
+worker1 ansible_port=10006 ansible_host=10.88.191.2
+
+[cn]
+coordinator
+
+[wn]
+worker0
+worker1
+
