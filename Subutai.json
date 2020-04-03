@@ -5,17 +5,32 @@
     "author": "https://github.com/lbthomsen",
     "ssh-key": "lth",
     "containers": [
-        {
-            "hostname": "citrus",
+        { 
+            "hostname": "coordinator",
             "template": "debian-stretch",
             "peer-criteria": "peers",
-            "peer-layout": "citrus",
+            "peer-layout": "coordinator",
             "size": "${containerSize}", 
             "port-mapping": [
                 {
                     "protocol": "tcp",
                     "domain": "${domain}",
-                    "internal-port": "3333",
+                    "internal-port": "5432",
+                    "external-port": "${port}"
+                }
+            ]
+        },
+        {
+            "hostname": "worker",
+            "template": "debian-stretch",
+            "peer-criteria": "peers",
+            "peer-layout": "worker",
+            "size": "${containerSize}", 
+            "port-mapping": [
+                {
+                    "protocol": "tcp",
+                    "domain": "${domain}",
+                    "internal-port": "5432",
                     "external-port": "${port}"
                 }
             ]
@@ -28,10 +43,15 @@
     ],
     "peer-layouts": [
         {
-            "name": "citrus",
-            "peer-count": "${numberOfNodes}",
+            "name": "coordinator",
+            "peer-count": "1",
             "container-per-peer": "1"
         },
+        {
+            "name": "workers",
+            "peer-count": "${numberOfWorkers}",
+            "container-per-peer": "1"
+        }
     ],
     "ansible-configuration": {
         "source-url": "https://github.com/lbthomsen/subutai-bp-citrus/archive/master.zip",
@@ -44,9 +64,15 @@
         ],
         "groups": [
             {
-                "name": "citrus",
+                "name": "cn",
                 "hostnames": [
-                    "citrus"
+                    "coordinator"
+                ]
+            }, 
+            {
+                "name": "wn",
+                "hostnames": [
+                    "worker"
                 ]
             }
         ]
@@ -55,16 +81,16 @@
         "environmentName": {
             "description": "Enter the environment name",
             "type": "string",
-            "default": "biab2",
+            "default": "citrus",
             "validation": "[a-zA-Z0-9]+"
         },
-        "numberOfNodes": {
-            "description": "Enter number of nodes",
+        "numberOfWorkers": {
+            "description": "Enter number of worker nodes",
             "type": "int",
-            "default": "3"
+            "default": "2"
         },
         "domain": {
-            "description": "Enter the primary domain name",
+            "description": "Enter the domain name",
             "type": "domain",
             "default": "change.the.domain",
             "validation": "[a-zA-Z0-9]+"
@@ -72,7 +98,7 @@
         "port": {
             "description": "Enter the port number",
             "type": "int",
-            "default": "4444"
+            "default": "5432"
         },
         "containerSize": {
             "description": "Container Size",
