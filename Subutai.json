@@ -1,13 +1,13 @@
 {
     "name": "${environmentName}",
     "description": "Citus",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "author": "https://github.com/lbthomsen",
     "ssh-key": "lth",
     "containers": [
         { 
             "hostname": "coordinator",
-            "template": "debian-stretch",
+            "template": "debian-buster",
             "peer-criteria": "peers",
             "peer-layout": "coordinator",
             "size": "${containerSize}", 
@@ -22,7 +22,7 @@
         },
         {
             "hostname": "worker",
-            "template": "debian-stretch",
+            "template": "debian-buster",
             "peer-criteria": "peers",
             "peer-layout": "workers",
             "size": "${containerSize}", 
