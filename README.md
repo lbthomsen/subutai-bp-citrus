@@ -1,2 +1,2 @@
-# subutai-bp-citrus
-Subutai Citrus Blueprint
+# subutai-bp-citus
+Subutai Citus Blueprint

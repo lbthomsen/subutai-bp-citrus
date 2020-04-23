@@ -3,6 +3,13 @@
 - hosts: all
   remote_user: root
 
+  handlers: 
+
+    - name: restart postgresql
+      service: 
+        name: postgresql
+        state: restarted
+
   tasks: 
 
     - name: Upgrade Debian
@@ -51,13 +58,13 @@
         insertbefore: '^port = '
         create: yes
         line: "listen_addresses = '*'"
+      notify: restart postgresql
 
     - name: Configure PostgreSQL to listen on all interfaces
-      lineinfile:
-        path: /etc/postgresql/12/main/pg_hba.conf 
-        regexp: '^host.*all.*127.0.0.1.*$'
-        line: "host\tall\tall\t127.0.0.1/32\ttrust"
-
+      template:
+        src: files/pg_hba.conf
+        dest: /etc/postgresql/12/main/pg_hba.conf
+      notify: restart postgresql
 
 #    - name: Display all variables/facts known for a host
 #      debug:
