@@ -3,6 +3,9 @@
 - hosts: all
   remote_user: root
 
+  vars: 
+    ansible_python_interpreter: auto_silent
+
   handlers: 
 
     - name: restart postgresql
@@ -38,12 +41,12 @@
 
     - name: Add Postgresql Repository
       apt_repository:
-        repo: deb http://apt.postgresql.org/pub/repos/apt/ stretch-pgdg main
+        repo: deb http://apt.postgresql.org/pub/repos/apt/ buster-pgdg main
         state: present
 
     - name: Add Citus Repository
       apt_repository: 
-        repo: deb https://repos.citusdata.com/community/debian/ stretch main
+        repo: deb https://repos.citusdata.com/community/debian/ buster main
         state: present
 
     - name: Install citus
