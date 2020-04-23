@@ -85,6 +85,15 @@
       become: yes
       become_user: postgres
 
+    - name: Add worker nodes
+      postgresql_query: 
+        query: "select * from master_add_node('{{hostvars[item].ansible_hostname}}', 5421)"
+      when: "'cn' in group_names"
+      with_items: "{{groups['wn']}}"
+      become: yes
+      become_user: postgres
+
+
 #    - name: Display all variables/facts known for a host
 #      debug:
 #        var: hostvars[inventory_hostname]
