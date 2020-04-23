@@ -27,6 +27,8 @@
           - apt-transport-https
           - dirmngr
           - aptitude
+          - python-psycopg2
+          - sudo
         state: present
 
     - name: Add PostgreSQL Repo Key
@@ -63,11 +65,25 @@
         line: "listen_addresses = '*'"
       notify: restart postgresql
 
+    - name: Add shared library
+      lineinfile:
+        path: /etc/postgresql/12/main/postgresql.conf 
+        insertafter: '^#shared_preload_libraries = '
+        create: yes
+        line: "shared_preload_libraries = 'citus'"
+      notify: restart postgresql
+
     - name: Configure PostgreSQL to listen on all interfaces
       template:
         src: files/pg_hba.conf
         dest: /etc/postgresql/12/main/pg_hba.conf
       notify: restart postgresql
+
+    - name: Create citrus extension
+      postgresql_query:
+        query: "CREATE EXTENSION IF NOT EXISTS citus"
+      become: yes
+      become_user: postgres
 
 #    - name: Display all variables/facts known for a host
 #      debug:
