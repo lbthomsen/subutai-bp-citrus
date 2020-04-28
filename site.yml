@@ -3,16 +3,6 @@
 - hosts: all
   remote_user: root
 
-  vars: 
-    ansible_python_interpreter: auto_silent
-
-  handlers: 
-
-    - name: restart postgresql
-      service: 
-        name: postgresql
-        state: restarted
-
   tasks: 
 
     - name: Upgrade Debian
@@ -63,7 +53,6 @@
         insertbefore: '^port = '
         create: yes
         line: "listen_addresses = '*'"
-      notify: restart postgresql
 
     - name: Add shared library
       lineinfile:
@@ -71,13 +60,16 @@
         insertafter: '^#shared_preload_libraries = '
         create: yes
         line: "shared_preload_libraries = 'citus'"
-      notify: restart postgresql
 
     - name: Configure PostgreSQL to listen on all interfaces
       template:
         src: files/pg_hba.conf
         dest: /etc/postgresql/12/main/pg_hba.conf
-      notify: restart postgresql
+
+    - name: Restart PostgreSQL
+      systemd:
+        name: postgresql
+        state: restarted
 
     - name: Create citrus extension
       postgresql_query:
