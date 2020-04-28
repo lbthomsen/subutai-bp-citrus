@@ -4,9 +4,9 @@ coordinator ansible_port=10003 ansible_host=10.58.14.1
 worker0 ansible_port=10004 ansible_host=10.58.14.2
 worker1 ansible_port=10006 ansible_host=10.58.14.1
 
-[cn]
+[coordinators]
 coordinator
 
-[wn]
+[worders]
 worker0
 worker1

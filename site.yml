@@ -72,14 +72,12 @@
         state: restarted
 
     - name: Create citrus extension
-      postgresql_query:
-        query: "CREATE EXTENSION IF NOT EXISTS citus"
+      command: psql -c "create extension if not exists citus"
       become: yes
       become_user: postgres
 
     - name: Add worker nodes
-      postgresql_query: 
-        query: "select * from master_add_node('{{hostvars[item].ansible_hostname}}', 5421)"
+      command: psql -c "select * from master_add_node('{{hostvars[item].ansible_hostname}}', 5421)"
       when: "'coordinators' in group_names"
       with_items: "{{groups['workers']}}"
       become: yes
